@@ -1,29 +1,31 @@
-ENG = snafuENG
-CC = gcc
-CFLAGS = -O3 -Wall -Wextra -Werror
-VERSION = $(shell cat include/snafuENG.h | grep Version | cut -b 13-18)
+SRC			= $(wildcard src/*.c)
+
+OBJ			= ${SRC:.c=.o}
+
+INC			= $(wildcard include/*.h)
+
+NAME		= libsnafuENG.a
+
+CC			= gcc
+
+CFLAGS		= -Wall -Wextra -Werror
+
+LDFLAGS		= -L. -lsnafuENG
+
+all:		${NAME}
+
+${NAME}:	${OBJ} ${INC}
+			ar -rcs $@ ${OBJ}
+
+.c.o:		${INC}
+			${CC} ${CFLAGS} -I./include -c $< -o ${<:.c=.o}
 
 clean:
-	rm -f *.o *.so rle *.zip
+			rm -f ${OBJ}
 
-$(ENG).o: src/$(ENG).c include/$(ENG).h
-	$(CC) $(CFLAGS) -c -fpic  $< -o $@ -I./include -I./src
+fclean:		clean
+			rm -f ${NAME}
 
-lib$(ENG).so: $(ENG).o
-	$(CC) $(CFLAGS) -shared $< -o $@
+re:			fclean all
 
-rle: bin/rle.c
-	$(CC) $(CFLAGS) $< -o $@
-
-build: lib$(ENG).so lib$(ENG).so rle
-
-# 64bit export
-export: build
-	mkdir $(ENG) $(ENG)/bin $(ENG)/lib
-	cp -r include $(ENG)
-	mv rle $(ENG)/bin
-	mv lib$(ENG).so $(ENG)/lib
-	cp LICENSE $(ENG)
-	echo $(VERSION) > $(ENG)/version
-	zip -r $(ENG)-$(VERSION).zip $(ENG)
-	rm -r $(ENG)
+.PHONY:		all clean fclean re
