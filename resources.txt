@@ -1,0 +1,14 @@
+> Termios doc:
+blog.nelhage.com/2009/12/a-brief-introduction-to-termios-termios3-and-stty
+
+> Termios functions:
+forums.justlinux.com/showthread.php?46366-Is-there-a-%28getch%29-like-substitute-in-Linux-Gcc
+flipcode.com/archives/_kbhit_for_Linux.shtml
+stackoverflow.com/questions/29335758/using-kbhit-and-getch-on-linux
+
+> Text editor in C:
+viewsourcecode.org/snaptoken/kilo/index.html
+github.com/antirez/kilo
+
+> Escapes codes:
+en.wikipedia.org/wiki/ANSI_escape_code

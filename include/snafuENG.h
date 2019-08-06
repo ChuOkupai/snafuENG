@@ -33,6 +33,9 @@
 /* clear the screen */
 void	snf_clear(void);
 
+/* enable or disable the cursor */
+void	snf_cursor(bool show);
+
 /* wait a specified number of milliseconds */
 void	snf_delay(clock_t milliseconds);
 
