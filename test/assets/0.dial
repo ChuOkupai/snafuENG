@@ -1,0 +1,5 @@
+snf_dialogue
+
+0 [IMG ./0.img] "Bonjour" > 1"Salut", "(partir)"
+1 "Comment ca va ?" > "Mal, je ne veux pas vous parler en faite", 2"Bien ! Et vous ?" 
+2 "Bien aussi. Merci." 
