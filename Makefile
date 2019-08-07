@@ -6,6 +6,10 @@ INC			= $(wildcard include/*.h)
 
 NAME		= libsnafuENG.a
 
+SRC_MAIN	= test/main.c
+
+MAIN		= ${SRC_MAIN:.c=.out}
+
 CC			= gcc
 
 CFLAGS		= -Wall -Wextra -Werror
@@ -20,11 +24,17 @@ ${NAME}:	${OBJ} ${INC}
 .c.o:		${INC}
 			${CC} ${CFLAGS} -I./include -c $< -o ${<:.c=.o}
 
+${MAIN}:	${SRC_MAIN} ${INC} ${NAME}
+			${CC} ${CFLAGS} -I./include $< -o $@ ${LDFLAGS}
+
+test:		${MAIN} ${NAME}
+			./$<
+
 clean:
 			rm -f ${OBJ}
 
 fclean:		clean
-			rm -f ${NAME}
+			rm -f ${NAME} ${MAIN}
 
 re:			fclean all
 

@@ -12,3 +12,5 @@ github.com/antirez/kilo
 
 > Escapes codes:
 en.wikipedia.org/wiki/ANSI_escape_code
+ascii-table.com/ansi-escape-sequences-vt-100.php
+tldp.org/HOWTO/Bash-Prompt-HOWTO/x361.html
