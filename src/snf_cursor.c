@@ -3,5 +3,5 @@
 
 void	snf_cursor(bool show)
 {
-	printf((show) ? "\e[?25l" : "\e[?25h");
+	printf((show) ? "\e[?25h" : "\e[?25l");
 }

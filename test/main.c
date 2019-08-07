@@ -4,25 +4,17 @@
 
 int	main(void)
 {
-	int c;
-
+	if (snf_init() < 0)
+	{
+		printf("error: snafuENG not initialized!\n");
+		return (0);
+	}
 	snf_clear();
-	printf("Press enter to continue...\n");
-	while (snf_getch() != '\n');
-	snf_clear();
-	printf("Waiting 2,75s...\n");
-	snf_delay(1250);
-	snf_clear();
-	snf_prints("Hello, World!\n", 300);
-	snf_prints("This is a test.\n", 150);
-	snf_prints("I repeat, this is a test.\n", 75);
-	snf_prints("Now press a key.\n", 50);
-	while (!snf_kbhit());
-	if (snf_isarrow())
-		printf("> it's an arrow key!\n");
-	else if (!isprint((c = snf_getch())))
-		printf("> cannot display this key!\n");
-	else
-		printf("> key pressed: '%c'\n", c);
+	snf_cursor(false);
+	snf_prints("Your interrupt doesn't work lol\n", 80);
+	snf_cursor(true);
+	snf_delay(1000);
+	snf_prints("Press a key\n", 80);
+	snf_getc();
 	return (0);
 }

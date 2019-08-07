@@ -45,6 +45,9 @@ int		snf_getc(void);
 /* read the next key pressed by the user */
 int		snf_getch(void);
 
+/* initialize snafuENG */
+int		snf_init(void);
+
 /* check if next key is an arrow key (works with SNF_ARROW_*) */
 bool	snf_isarrow(void);
 
