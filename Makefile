@@ -8,7 +8,7 @@ NAME		= libsnafuENG.a
 
 SRC_MAIN	= test/main.c
 
-MAIN		= ${SRC_MAIN:.c=.out}
+MAIN		= output
 
 CC			= gcc
 
@@ -38,4 +38,4 @@ fclean:		clean
 
 re:			fclean all
 
-.PHONY:		all clean fclean re
+.PHONY:		all test clean fclean re

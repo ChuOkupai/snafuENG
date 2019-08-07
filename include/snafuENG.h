@@ -39,6 +39,9 @@ void	snf_cursor(bool show);
 /* wait a specified number of milliseconds */
 void	snf_delay(clock_t milliseconds);
 
+/* print an error on STDERR_FILENO, then exit if quit is set as true */
+void	snf_error(const char *function, bool quit);
+
 /* get the next input from stdin */
 int		snf_getc(void);
 
@@ -46,7 +49,7 @@ int		snf_getc(void);
 int		snf_getch(void);
 
 /* initialize snafuENG */
-int		snf_init(void);
+void	snf_init(void);
 
 /* check if next key is an arrow key (works with SNF_ARROW_*) */
 bool	snf_isarrow(void);
