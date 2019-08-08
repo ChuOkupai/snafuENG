@@ -1,7 +1,7 @@
+#include <errno.h>
 #include <fcntl.h>
 #include <snafuENG.h>
 #include <stdlib.h>
-#include <errno.h>
 #include <termios.h>
 #include <unistd.h>
 

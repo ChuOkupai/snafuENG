@@ -25,7 +25,7 @@
 # include <stdbool.h>
 # include <time.h>
 
-enum e_snfkey
+enum e_snf_key
 {
 	// order is important!
 	SNFKEY_ARROW_UP = 256,
@@ -39,6 +39,13 @@ enum e_snfkey
 	SNFKEY_PAGE_UP,
 	SNFKEY_PAGE_DOWN
 };
+
+typedef struct	s_snf_img
+{
+	char	**p;
+	int		x;
+	int		y;
+}				t_img;
 
 /* wait a specified number of milliseconds, break on user input */
 int		snf_bdelay(clock_t ms);
@@ -60,6 +67,15 @@ int		snf_getc(void);
 
 /* initialize snafuENG */
 void	snf_init(void);
+
+/* free the memory of a t_img */
+void	snf_image_destroy(t_img *image);
+
+/* load an image file in a t_img */
+t_img*	snf_image_load(const char *path);
+
+/* print an image on screen */
+void	snf_image_print(const t_img *image);
 
 /* check if c is an arrow key */
 bool	snf_isarrow(int c);

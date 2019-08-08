@@ -28,6 +28,7 @@ int	snf_getc(void)
 					if (b[1] == '7') return (SNFKEY_HOME);
 					if (b[1] == '8') return (SNFKEY_END);
 				}
+				c = 0;
 			}
 			else
 			{
@@ -40,6 +41,7 @@ int	snf_getc(void)
 		{
 			if (b[1] == 'H') return (SNFKEY_HOME);
 			if (b[1] == 'F') return (SNFKEY_END);
+			c = 0;
 		}
 	}
 	return ((c > 127) ? 0 : c);
