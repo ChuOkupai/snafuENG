@@ -2,6 +2,6 @@
 
 void	snf_delay(clock_t ms)
 {
-	ms = 1000 * ms + clock();
+	ms = CLOCKS_PER_SEC * ms / 1000 + clock();
 	while (clock() < ms);
 }

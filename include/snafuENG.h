@@ -25,15 +25,22 @@
 # include <stdbool.h>
 # include <time.h>
 
-# define SNFKEY_ARROW_UP	256
-# define SNFKEY_ARROW_DOWN	257
-# define SNFKEY_ARROW_RIGHT	258
-# define SNFKEY_ARROW_LEFT	259
-# define SNFKEY_HOME		260
-# define SNFKEY_DEL			261
-# define SNFKEY_END			262
-# define SNFKEY_PAGE_UP		263
-# define SNFKEY_PAGE_DOWN	264
+enum e_snfkey
+{
+	SNFKEY_ARROW_UP = 256,
+	SNFKEY_ARROW_DOWN,
+	SNFKEY_ARROW_RIGHT,
+	SNFKEY_ARROW_LEFT,
+	SNFKEY_HOME,
+	SNFKEY_INS,
+	SNFKEY_DEL,
+	SNFKEY_END,
+	SNFKEY_PAGE_UP,
+	SNFKEY_PAGE_DOWN
+};
+
+/* wait a specified number of milliseconds, break on user input */
+int		snf_bdelay(clock_t ms);
 
 /* clear the screen */
 void	snf_clear(void);
@@ -55,6 +62,12 @@ void	snf_init(void);
 
 /* check if c is an arrow key */
 bool	snf_isarrow(int c);
+
+/* check if c is a key code from snafuENG (see e_snfkey enum) */
+bool	snf_iskeycode(int c);
+
+/* convert a keycode in ascii (always returns a valid pointer) */
+char*	snf_ktoa(int c);
 
 /* print a string with a delay in milliseconds between each characters */
 void	snf_prints(const char *string, clock_t delay);

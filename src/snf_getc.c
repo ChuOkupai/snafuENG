@@ -5,62 +5,48 @@
 
 int	snf_getc(void)
 {
-	char c[3] = { 0 };
+	char b[3];
+	char c;
 
-	*c = 0;
-	if (read(STDIN_FILENO, c, 1) < 0)
+	if (read(STDIN_FILENO, &c, 1) < 0)
 	{
-		if (errno == EAGAIN)
-			errno = 0;
-		else
+		if (errno != EAGAIN)
 			snf_error(__func__, true);
+		return (errno = 0); // nothing to read
 	}
-	else if (*c == 27 && read(STDIN_FILENO, c, 1) > 0)
+	if (c == 27 && read(STDIN_FILENO, b, 1) > 0
+		&& read(STDIN_FILENO, b + 1, 1) > 0)
 	{
-		if (read(STDIN_FILENO, &c[1], 1) < 1)
-			return (27);
-		if (*c == '[')
+		if (*b == '[') //handle escapes codes
 		{
-			if (isdigit(c[1]))
-		 	{
-				if (read(STDIN_FILENO, &c[2], 1) < 1)
-					return (27);
-				if (c[2] == '~')
+			if (isdigit(b[1]))
+			{
+				if (read(STDIN_FILENO, b + 2, 1) > 0 && b[2] == '~')
 				{
-					switch (c[1])
-					{
-						case '1': return SNFKEY_HOME;
-						case '3': return SNFKEY_DEL;
-						case '4': return SNFKEY_END;
-						case '5': return SNFKEY_PAGE_UP;
-						case '6': return SNFKEY_PAGE_DOWN;
-						case '7': return SNFKEY_HOME;
-						case '8': return SNFKEY_END;
-					}
+					if (b[1] == '1') return (SNFKEY_HOME);
+					if (b[1] == '2') return (SNFKEY_INS);
+					if (b[1] == '3') return (SNFKEY_DEL);
+					if (b[1] == '4') return (SNFKEY_END);
+					if (b[1] == '5') return (SNFKEY_PAGE_UP);
+					if (b[1] == '6') return (SNFKEY_PAGE_DOWN);
+					if (b[1] == '7') return (SNFKEY_HOME);
+					if (b[1] == '8') return (SNFKEY_END);
 				}
 			}
 			else
 			{
-				switch (c[1])
-				{
-					case 'A': return SNFKEY_ARROW_UP;
-					case 'B': return SNFKEY_ARROW_DOWN;
-					case 'C': return SNFKEY_ARROW_RIGHT;
-					case 'D': return SNFKEY_ARROW_LEFT;
-					case 'H': return SNFKEY_HOME;
-					case 'F': return SNFKEY_END;
-				}
+				if (b[1] == 'A') return (SNFKEY_ARROW_UP);
+				if (b[1] == 'B') return (SNFKEY_ARROW_DOWN);
+				if (b[1] == 'C') return (SNFKEY_ARROW_RIGHT);
+				if (b[1] == 'D') return (SNFKEY_ARROW_LEFT);
+				*b = 'O';
 			}
 		}
-		else if (*c == 'O')
+		if (*b == 'O')
 		{
-			switch (c[1])
-			{
-				case 'H': return SNFKEY_HOME;
-				case 'F': return SNFKEY_END;
-			}
+			if (b[1] == 'H') return (SNFKEY_HOME);
+			if (b[1] == 'F') return (SNFKEY_END);
 		}
-		return (27);
 	}
-	return (*c);
+	return ((c < 0) ? 0 : c);
 }

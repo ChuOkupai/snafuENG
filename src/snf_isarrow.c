@@ -3,5 +3,5 @@
 
 bool	snf_isarrow(int c)
 {
-	return (c >= SNF_ARROW_UP && c <= SNF_ARROW_LEFT);
+	return (c >= SNFKEY_ARROW_UP && c <= SNFKEY_ARROW_LEFT);
 }
