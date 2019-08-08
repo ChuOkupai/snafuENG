@@ -22,17 +22,12 @@ static const char*	snf_pmove(const char *s, int len)
 	return (s + len);
 }
 
-void		snf_prints(const char *s, clock_t dt)
+void				snf_prints(const char *s, clock_t dt)
 {
 	int len;
 
-	while (*s)
-	{
-		if (*(s = snf_pmove(s, snf_strlenh(s))))
-			s = snf_pmove(s, 1);
-		if (!*(s + (len = snf_strlenh(s)))) // only hidden characters left
-			s = snf_pmove(s, len);
-		else if (snf_bdelay(dt)) // true if user press a key
-			s = snf_pmove(s, strlen(s));
-	}
+	len = snf_strlenh(s);
+	while (*(s = snf_pmove(s, len + (*(s + len) != 0))))
+		if (*(s + (len = snf_strlenh(s))) && snf_bdelay(dt))
+			s = snf_pmove(s, strlen(s)); // user want to skip animation
 }

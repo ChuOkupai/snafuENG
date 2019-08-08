@@ -5,8 +5,8 @@
 
 int	snf_getc(void)
 {
-	char b[3];
-	char c;
+	unsigned char b[3];
+	unsigned char c;
 
 	if (read(STDIN_FILENO, &c, 1) < 0)
 	{
@@ -48,5 +48,5 @@ int	snf_getc(void)
 			if (b[1] == 'F') return (SNFKEY_END);
 		}
 	}
-	return ((c < 0) ? 0 : c);
+	return ((c > 127) ? 0 : c);
 }
