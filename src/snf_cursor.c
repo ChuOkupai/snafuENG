@@ -1,7 +1,7 @@
 #include <stdbool.h>
-#include <stdio.h>
+#include <unistd.h>
 
 void	snf_cursor(bool show)
 {
-	printf((show) ? "\e[?25h" : "\e[?25l");
+	write(STDIN_FILENO, (show) ? "\e[?25h" : "\e[?25l", 6);
 }

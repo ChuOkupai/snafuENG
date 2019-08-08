@@ -1,4 +1,4 @@
-#include <snafuENG.h>
+#include <time.h>
 
 void	snf_delay(clock_t ms)
 {

@@ -25,10 +25,15 @@
 # include <stdbool.h>
 # include <time.h>
 
-# define SNF_ARROW_UP		65
-# define SNF_ARROW_DOWN		66
-# define SNF_ARROW_RIGHT	67
-# define SNF_ARROW_LEFT		68
+# define SNFKEY_ARROW_UP	256
+# define SNFKEY_ARROW_DOWN	257
+# define SNFKEY_ARROW_RIGHT	258
+# define SNFKEY_ARROW_LEFT	259
+# define SNFKEY_HOME		260
+# define SNFKEY_DEL			261
+# define SNFKEY_END			262
+# define SNFKEY_PAGE_UP		263
+# define SNFKEY_PAGE_DOWN	264
 
 /* clear the screen */
 void	snf_clear(void);
@@ -42,20 +47,14 @@ void	snf_delay(clock_t milliseconds);
 /* print an error on STDERR_FILENO, then exit if quit is set as true */
 void	snf_error(const char *function, bool quit);
 
-/* get the next input from stdin */
+/* get the next scancode from user (non blocking) */
 int		snf_getc(void);
-
-/* read the next key pressed by the user */
-int		snf_getch(void);
 
 /* initialize snafuENG */
 void	snf_init(void);
 
-/* check if next key is an arrow key (works with SNF_ARROW_*) */
-bool	snf_isarrow(void);
-
-/* check if an user input can be read */
-int		snf_kbhit(void);
+/* check if c is an arrow key */
+bool	snf_isarrow(int c);
 
 /* print a string with a delay in milliseconds between each characters */
 void	snf_prints(const char *string, clock_t delay);

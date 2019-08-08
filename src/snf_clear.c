@@ -1,6 +1,6 @@
-#include <stdio.h>
+#include <unistd.h>
 
 void	snf_clear(void)
 {
-	printf("\e[2J\e[H\e[3J");
+	write(STDIN_FILENO, "\e[2J\e[H\e[3J", 11);
 }
