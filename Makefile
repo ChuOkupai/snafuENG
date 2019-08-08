@@ -8,7 +8,7 @@ NAME		= libsnafuENG.a
 
 SRC_MAIN	= test/main.c
 
-MAIN		= test.out
+MAIN		= main.out
 
 CC			= gcc
 
