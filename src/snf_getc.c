@@ -23,22 +23,16 @@ int	snf_getc(void)
 			{
 				if (read(STDIN_FILENO, b + 2, 1) > 0 && b[2] == '~')
 				{
-					if (b[1] == '1') return (SNFKEY_HOME);
-					if (b[1] == '2') return (SNFKEY_INS);
-					if (b[1] == '3') return (SNFKEY_DEL);
-					if (b[1] == '4') return (SNFKEY_END);
-					if (b[1] == '5') return (SNFKEY_PAGE_UP);
-					if (b[1] == '6') return (SNFKEY_PAGE_DOWN);
+					if (b[1] > '0' && b[1] < '7')
+						return (b[1] + SNFKEY_HOME - '1');
 					if (b[1] == '7') return (SNFKEY_HOME);
 					if (b[1] == '8') return (SNFKEY_END);
 				}
 			}
 			else
 			{
-				if (b[1] == 'A') return (SNFKEY_ARROW_UP);
-				if (b[1] == 'B') return (SNFKEY_ARROW_DOWN);
-				if (b[1] == 'C') return (SNFKEY_ARROW_RIGHT);
-				if (b[1] == 'D') return (SNFKEY_ARROW_LEFT);
+				if (b[1] >= 'A' && b[1] < 'E')
+					return (b[1] + SNFKEY_ARROW_UP - 'A');
 				*b = 'O';
 			}
 		}

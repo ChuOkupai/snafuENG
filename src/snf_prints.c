@@ -29,5 +29,5 @@ void				snf_prints(const char *s, clock_t dt)
 	len = snf_strlenh(s);
 	while (*(s = snf_pmove(s, len + (*(s + len) != 0))))
 		if (*(s + (len = snf_strlenh(s))) && snf_bdelay(dt))
-			s = snf_pmove(s, strlen(s)); // user want to skip animation
+			len = strlen(s); // user want to skip animation
 }
