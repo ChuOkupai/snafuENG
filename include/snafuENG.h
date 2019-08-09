@@ -27,7 +27,6 @@
 
 enum e_snf_key
 {
-	// order is important!
 	SNFKEY_ARROW_UP = 256,
 	SNFKEY_ARROW_DOWN,
 	SNFKEY_ARROW_RIGHT,
