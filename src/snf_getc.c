@@ -7,48 +7,44 @@
 int			snf_getc(void)
 {
 	int				fd;
-	unsigned char	b[3];
-	unsigned int	c;
+	unsigned char	b[4];
 
-
-	fd = fcntl(STDIN_FILENO, F_GETFL, 0);
-	fcntl(STDIN_FILENO, F_SETFL, fd | O_NONBLOCK);
-	if (read(STDIN_FILENO, &c, 1) < 0)
+	if ((fd = fcntl(STDIN_FILENO, F_GETFL, 0)) < 0
+		|| fcntl(STDIN_FILENO, F_SETFL, fd | O_NONBLOCK) < 0
+		|| read(STDIN_FILENO, b, 4) < 0)
 	{
 		if (errno != EAGAIN)
 			snf_error(__func__, true);
-		c = (errno = 0); // nothing to read
+		return (errno = 0); // nothing to read
 	}
-	if (c == 27) //handle escapes codes
+	if (fcntl(STDIN_FILENO, F_SETFL, fd) < 0)
+		snf_error(__func__, true);
+	if (*b == 27) //handle escapes codes
 	{
-		if (read(STDIN_FILENO, b, 1) < 1
-			|| read(STDIN_FILENO, b + 1, 1) < 1)
-			*b = 0;
-		if (*b == '[')
+		if (b[1] == '[')
 		{
-			if (isdigit(b[1]))
+			if (isdigit(b[2]))
 			{
-				if (read(STDIN_FILENO, b + 2, 1) > 0 && b[2] == '~')
+				if (b[3] == '~')
 				{
-					if (b[1] > '0' && b[1] < '7')
-						c = b[1] + SNFKEY_HOME - '1';
-					else if (b[1] == '7') c = SNFKEY_HOME;
-					else if (b[1] == '8') c = SNFKEY_END;
+					if (b[2] > '0' && b[2] < '7')
+						return (b[2] + SNFKEY_HOME - '1');
+					if (b[2] == '7') return (SNFKEY_HOME);
+					if (b[2] == '8') return (SNFKEY_END);
 				}
 			}
-			else if (b[1] >= 'A' && b[1] < 'E')
-				c = b[1] + SNFKEY_ARROW_UP - 'A';
+			else if (b[2] >= 'A' && b[2] < 'E')
+				return (b[2] + SNFKEY_ARROW_UP - 'A');
 			else
-				*b = 'O';
+				b[1] = 'O';
 		}
-		if (*b == 'O')
+		if (b[1] == 'O')
 		{
-			if (b[1] == 'H') c = SNFKEY_HOME;
-			else if (b[1] == 'F') c = SNFKEY_END;
+			if (b[2] == 'H') return (SNFKEY_HOME);
+			if (b[2] == 'F') return (SNFKEY_END);
 		}
 	}
-	else if (c > 127)
-		c = 0;
-	fcntl(STDIN_FILENO, F_SETFL, fd);
-	return (c);
+	else if (*b > 127)
+		*b = 0;
+	return (*b);
 }

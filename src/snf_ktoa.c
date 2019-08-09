@@ -1,7 +1,7 @@
 #include <errno.h>
 #include <snafuENG.h>
 
-char*	snf_ktoa(int c)
+const char*	snf_ktoa(int c)
 {
 	if (c == SNFKEY_ARROW_UP)		return ("up");
 	if (c == SNFKEY_ARROW_DOWN)		return ("down");

@@ -12,7 +12,7 @@ MAIN		= main.out
 
 CC			= gcc
 
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -g
 
 LDFLAGS		= -L. -lsnafuENG
 
@@ -25,7 +25,10 @@ ${NAME}:	${OBJ} ${INC}
 			${CC} ${CFLAGS} -I./include -c $< -o ${<:.c=.o}
 
 ${MAIN}:	${SRC_MAIN} ${INC} ${NAME}
-			${CC} ${CFLAGS} -I./include $< -o $@ ${LDFLAGS}
+			${CC} ${CFLAGS} -I./include $< -o ${MAIN} ${LDFLAGS}
+
+debug:		${MAIN} ${NAME}
+			valgrind ./$<
 
 test:		${MAIN} ${NAME}
 			./$<

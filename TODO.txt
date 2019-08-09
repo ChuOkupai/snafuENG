@@ -1,0 +1,7 @@
+-rewrite kbhit with termios
+-allow to disable rawmode
+-implement chained lists
+-rewrite snf_image_load and snf_img_print
+-implement a strlen unicode friendly
+-reorganize
+-use a better Makefile in order to use hidden system functions in snafuENG

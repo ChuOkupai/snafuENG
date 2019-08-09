@@ -1,6 +1,7 @@
 #include <snafuENG.h>
 #include <unistd.h>
 
+// TODO: -replace line 13 by an escape code to move the cursor
 void	snf_image_print(const t_img *img)
 {
 	int y;

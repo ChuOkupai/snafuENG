@@ -48,45 +48,45 @@ typedef struct	s_snf_img
 }				t_img;
 
 /* wait a specified number of milliseconds, break on user input */
-int		snf_bdelay(clock_t ms);
+int			snf_bdelay(clock_t ms);
 
 /* clear the screen */
-void	snf_clear(void);
+void		snf_clear(void);
 
 /* enable or disable the cursor */
-void	snf_cursor(bool show);
+void		snf_cursor(bool show);
 
 /* wait a specified number of milliseconds */
-void	snf_delay(clock_t milliseconds);
+void		snf_delay(clock_t milliseconds);
 
 /* print an error on STDERR_FILENO, then exit if quit is set as true */
-void	snf_error(const char *function, bool quit);
+void		snf_error(const char *function, bool quit);
 
 /* get the next scancode from user (non blocking) */
-int		snf_getc(void);
+int			snf_getc(void);
 
 /* initialize snafuENG */
-void	snf_init(void);
+void		snf_init(void);
 
 /* free the memory of a t_img */
-void	snf_image_destroy(t_img *image);
+void		snf_image_destroy(t_img *image);
 
 /* load an image file in a t_img */
-t_img*	snf_image_load(const char *path);
+t_img*		snf_image_load(const char *path);
 
 /* print an image on screen */
-void	snf_image_print(const t_img *image);
+void		snf_image_print(const t_img *image);
 
 /* check if c is an arrow key */
-bool	snf_isarrow(int c);
+bool		snf_isarrow(int c);
 
 /* check if c is a key code from snafuENG (see e_snfkey enum) */
-bool	snf_iskeycode(int c);
+bool		snf_iskeycode(int c);
 
 /* convert a keycode in ascii (always returns a valid pointer) */
-char*	snf_ktoa(int c);
+const char*	snf_ktoa(int c);
 
 /* print a string with a delay in milliseconds between each characters */
-void	snf_prints(const char *string, clock_t delay);
+void		snf_prints(const char *string, clock_t delay);
 
 #endif
