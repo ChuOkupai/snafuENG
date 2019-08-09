@@ -12,7 +12,7 @@ MAIN		= main.out
 
 CC			= gcc
 
-CFLAGS		= -Wall -Wextra -Werror -g
+CFLAGS		= -Wall -Wextra -Werror
 
 LDFLAGS		= -L. -lsnafuENG
 

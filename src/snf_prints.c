@@ -18,7 +18,7 @@ static int			snf_strlenh(const char *s)
 static const char*	snf_pmove(const char *s, int len)
 {
 	if (len)
-		write(STDIN_FILENO, s, len);
+		write(STDOUT_FILENO, s, len);
 	return (s + len);
 }
 
