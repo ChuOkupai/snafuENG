@@ -1,44 +1,60 @@
-SRC			= $(wildcard src/*.c)
+# Paths
+BUILD_DIR	= build
+INC_DIR		= include
+SRC_DIR		= src
 
-OBJ			= ${SRC:.c=.o}
+# Sources files
+INC	:= $(wildcard ${INC_DIR}/*.h)
+SRC	:= $(wildcard ${SRC_DIR}/*.c)
+DEP	:= $(notdir ${SRC})
+DEP	:= $(DEP:%.c=${BUILD_DIR}/%.d)
+OBJ	:= $(DEP:.d=.o)
+LIB	= libsnafuENG.a
 
-INC			= $(wildcard include/*.h)
+# Compilation
+CC		= gcc
+CFLAGS	= -Wall -Wextra -Werror -g
+LDFLAGS	= -L. -lsnafuENG
 
-NAME		= libsnafuENG.a
+# Test
+MAIN	?= test/main.c
+EXEC	?= $(basename ${MAIN})
+DEBUG	?= valgrind
 
-SRC_MAIN	= test/main.c
+echo:
+	@echo "> INC:" ${INC}
+	@echo "> SRC:" ${SRC}
+	@echo "> OBJ:" ${OBJ}
+	@echo "> DEP:" ${DEP}
 
-MAIN		= main.out
+all: ${LIB}
 
-CC			= gcc
+-include $(DEP)
 
-CFLAGS		= -Wall -Wextra -Werror -g
+${BUILD_DIR}:
+	mkdir -p $@
 
-LDFLAGS		= -L. -lsnafuENG
+${BUILD_DIR}/%.o: ${SRC_DIR}/%.c | ${BUILD_DIR}
+	${CC} ${CFLAGS} -I./${INC_DIR} -MD -c $< -o $@
 
-all:		${NAME}
+${LIB}: ${OBJ}
+	ar -rcs $@ ${OBJ}
 
-${NAME}:	${OBJ} ${INC}
-			ar -rcs $@ ${OBJ}
+${EXEC}: ${MAIN} ${INC} ${LIB}
+	${CC} ${CFLAGS} -I./${INC_DIR} $< -o $@ ${LDFLAGS}
 
-.c.o:		${INC}
-			${CC} ${CFLAGS} -I./include -c $< -o ${<:.c=.o}
+testd: ${EXEC} ${LIB}
+	${DEBUG} ./$<
 
-${MAIN}:	${SRC_MAIN} ${INC} ${NAME}
-			${CC} ${CFLAGS} -I./include $< -o ${MAIN} ${LDFLAGS}
-
-debug:		${MAIN} ${NAME}
-			valgrind ./$<
-
-test:		${MAIN} ${NAME}
-			./$<
+test: ${EXEC} ${LIB}
+	./$<
 
 clean:
-			rm -f ${OBJ}
+	rm -rf ${BUILD_DIR}
 
-fclean:		clean
-			rm -f ${NAME} ${MAIN}
+fclean: clean
+	rm -f ${LIB} ${EXEC}
 
-re:			fclean all
+re: fclean all
 
-.PHONY:		all test clean fclean re
+.PHONY: all test clean fclean re
