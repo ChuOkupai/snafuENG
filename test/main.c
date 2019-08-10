@@ -53,9 +53,10 @@ void	test_print(void)
 
 int		main(void)
 {
-	snf_init();
+	snf_raw(true);
 	test_image();
 	test_keys();
 	test_print();
+	snf_raw(false);
 	return (0);
 }

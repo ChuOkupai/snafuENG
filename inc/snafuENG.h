@@ -64,9 +64,6 @@ void		snf_error(const char *function, bool quit);
 /* get the next scancode from user (non blocking) */
 int			snf_getc(void);
 
-/* initialize snafuENG */
-void		snf_init(void);
-
 /* free the memory of a t_img */
 void		snf_image_destroy(t_img *image);
 
@@ -82,10 +79,18 @@ bool		snf_isarrow(int c);
 /* check if c is a key code from snafuENG (see e_snfkey enum) */
 bool		snf_iskeycode(int c);
 
+/* check if an user input can be read */
+bool		snf_kbhit(void);
+
 /* convert a keycode in ascii (always returns a valid pointer) */
 const char*	snf_ktoa(int c);
 
 /* print a string with a delay in milliseconds between each characters */
 void		snf_prints(const char *string, clock_t delay);
+
+/* enable or disable raw mode (to prevent line buffering) */
+// If raw mode is already enabled, nothing occurs.
+// /!\ DISABLE before exit
+void		snf_raw(bool enable);
 
 #endif
