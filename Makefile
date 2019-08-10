@@ -1,56 +1,59 @@
-# Paths
-INC_DIR			= include
-SRC_DIR			= src
-OBJ_DIR			= obj
-DEP_DIR			= ${OBJ_DIR}/dep
+# DIRECTORIES
+DEP_DIR	= dep
+INC_DIR	= inc
+OBJ_DIR	= obj
+SRC_DIR	= src
 
-# Sources files
-INC				:= $(wildcard ${INC_DIR}/*.h)
-SRC				:= $(wildcard ${SRC_DIR}/*.c)
-OBJ				:= $(notdir ${SRC})
-DEP				:= $(OBJ:%.c=${DEP_DIR}/%.d)
-OBJ				:= $(OBJ:%.c=${OBJ_DIR}/%.o)
-LIB				= libsnafuENG.a
+# FILES
+INC		:= $(wildcard $(INC_DIR)/*.h)
+SRC		:= $(wildcard $(SRC_DIR)/*.c)
+OBJ		:= $(notdir $(SRC))
+DEP		:= $(OBJ:%.c=$(DEP_DIR)/%.d)
+OBJ		:= $(OBJ:%.c=$(OBJ_DIR)/%.o)
+LIB		= libsnafuENG.a
 
-# Compilation
-CC				= gcc
-CFLAGS			= -Wall -Wextra -Werror -g
-DFLAGS			= -MMD -MF ${DEP_DIR}/$*.d
-LDFLAGS			= -L. -lsnafuENG
+# COMPILATION
+CC		= gcc
+CFLAGS	= -Wall -Wextra -Werror -g
+DFLAGS	= -MP -MMD -MF $(DEP_DIR)/$*.d -MT '$@'
+LDFLAGS	= -L. -lsnafuENG
 
-# Test
-MAIN			?= test/main.c
-EXEC			?= $(basename ${MAIN})
-DEBUG			?= valgrind
+# TEST
+MAIN	= test/main.c
+EXEC	= $(basename $(MAIN))
+DEBUG	= valgrind
 
-all:			${LIB}
+$(LIB): $(OBJ)
+	ar -rcs $@ $(OBJ)
 
-${OBJ_DIR}:
-				mkdir $@ ${DEP_DIR}
+all: $(LIB)
 
-${OBJ_DIR}/%.o:	${SRC_DIR}/%.c | ${OBJ_DIR}
-				${CC} ${CFLAGS} -c -I./${INC_DIR} $< -o $@ ${DFLAGS}
+test: $(EXEC) $(LIB)
+	./$<
 
-${LIB}:			${OBJ}
-				ar -rcs $@ ${OBJ}
-
-${EXEC}:		${MAIN} ${INC} ${LIB}
-				${CC} ${CFLAGS} -I./${INC_DIR} $< -o $@ ${LDFLAGS}
-
-test:			${EXEC} ${LIB}
-				./$<
-
-testd:			${EXEC} ${LIB}
-				${DEBUG} ./$<
+debug: $(EXEC) $(LIB)
+	$(DEBUG) ./$<
 
 clean:
-				rm -rf ${OBJ_DIR}
+	rm -rf $(DEP_DIR) $(OBJ_DIR)
 
-fclean:			clean
-				rm -f ${LIB} ${EXEC}
+fclean: clean
+	rm -f $(LIB) $(EXEC)
 
-re:				fclean all
+re: fclean all
 
--include		$(DEP)
+$(DEP_DIR):
+	mkdir $@
 
-.PHONY:			all test testd clean fclean re
+$(OBJ_DIR):
+	mkdir $@
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(DEP_DIR) $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(DFLAGS) -c -I./$(INC_DIR) $< -o $@
+
+$(EXEC): $(MAIN) $(INC) $(LIB)
+	$(CC) $(CFLAGS) -I./$(INC_DIR) $< -o $@ $(LDFLAGS)
+
+-include $(DEP)
+
+.PHONY: all test debug clean fclean re
