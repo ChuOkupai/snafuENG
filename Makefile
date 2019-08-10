@@ -20,7 +20,7 @@ LDFLAGS	= -L. -lsnafuENG
 
 # TEST
 MAIN	= test/main.c
-EXEC	= $(basename $(MAIN))
+EXEC	= $(MAIN:.c=.out)
 DEBUG	= valgrind
 
 $(LIB): $(OBJ)
@@ -28,10 +28,10 @@ $(LIB): $(OBJ)
 
 all: $(LIB)
 
-test: $(EXEC) $(LIB)
+test: $(EXEC)
 	./$<
 
-debug: $(EXEC) $(LIB)
+debug: $(EXEC)
 	$(DEBUG) ./$<
 
 clean:
@@ -51,7 +51,7 @@ $(OBJ_DIR):
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(DEP_DIR) $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(DFLAGS) -c -I./$(INC_DIR) $< -o $@
 
-$(EXEC): $(MAIN) $(INC) $(LIB)
+$(EXEC): $(MAIN) $(INC_DIR)/snafuENG.h $(LIB)
 	$(CC) $(CFLAGS) -I./$(INC_DIR) $< -o $@ $(LDFLAGS)
 
 -include $(DEP)
